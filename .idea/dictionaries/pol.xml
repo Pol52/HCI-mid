@@ -2,6 +2,7 @@
   <dictionary name="pol">
     <words>
       <w>pixmap</w>
+      <w>retranslate</w>
     </words>
   </dictionary>
 </component>

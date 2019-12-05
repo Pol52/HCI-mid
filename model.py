@@ -18,30 +18,34 @@ class Image(QLabel):
 
     def resize(self, width, height):
         QLabel.resize(self, width, height)
-        pixmap1 = QPixmap('image.jpeg')
-        if width > height:
-            self.pixmap = pixmap1.scaled(width, height, Qt.KeepAspectRatio,  Qt.SmoothTransformation)
+        self.pixmap = QPixmap('image.jpeg')
+        self.pixmap = self.pixmap.transformed(QTransform().rotate(self.rotation))
+        if self.rotation % 180 == 0:
+            self.pixmap = self.pixmap.scaledToWidth(width)
         else:
-            self.pixmap = pixmap1.scaled(height, width, Qt.KeepAspectRatio, Qt.SmoothTransformation)
-        self.pixmap = self.pixmap.transformed(QTransform().rotate(self.rotation * 90))
+            self.pixmap = self.pixmap.scaledToHeight(height)
+        # self.pixmap = pixmap1.scaled(width, height, Qt.KeepAspectRatio,  Qt.SmoothTransformation)
         self.setPixmap(self.pixmap)
 
-    def rotate(self, angle):
-        self.pixmap = self.pixmap.transformed(QTransform().rotate(angle))
-        self.setPixmap(self.pixmap)
-        if self.rotation == 3:
-            self.rotation = 0
+    # def rotate(self, angle):
+    #     self.pixmap = self.pixmap.transformed(QTransform().rotate(angle))
+    #     self.setPixmap(self.pixmap)
+    #     if self.rotation == 3:
+    #         self.rotation = 0
+    #     else:
+    #         self.rotation += 1
+
+    def rotate(self, width, height, angle):
+        QLabel.resize(self, width, height)
+        pixmap = QPixmap('image.jpeg')
+        pixmap = pixmap.transformed(QTransform().rotate(self.rotation + angle))
+        self.rotation = self.rotation + angle
+        if self.rotation % 180 == 0:
+            pixmap = pixmap.scaledToWidth(width)
         else:
-            self.rotation += 1
-
-    def rotateClockwise(self):
-        self.rotate(90)
-
-    def rotateAntiClockwise(self):
-        self.rotate(-90)
-
-    def printExif(self):
-        print(self.convertExif(self.exif_data))
+            pixmap = pixmap.scaledToHeight(height)
+        self.pixmap = pixmap
+        self.setPixmap(self.pixmap)
 
     def convertExif(self):
         result = {}
@@ -64,6 +68,9 @@ class Window(QWidget):
 
     def resizeEvent(self, event):
         self.label.resize(self.width(), self.height())
-        self.resize(self.width(), self.height())
 
-
+    def rotate(self, angle):
+        width = self.width()
+        height = self.height()
+        self.label.rotate(width, height, angle)
+        self.label.setAlignment(Qt.AlignCenter)

@@ -61,6 +61,9 @@
           <height>0</height>
          </size>
         </property>
+        <property name="styleSheet">
+         <string notr="true">border:1px solid black</string>
+        </property>
        </widget>
       </item>
       <item>

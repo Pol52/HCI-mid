@@ -14,8 +14,9 @@ class BeautyWindow(QMainWindow):
         QMainWindow.__init__(self)
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
-        self.ui.pushButton_3.clicked.connect(self.ui.widget.label.rotateClockwise)
-        self.ui.pushButton.clicked.connect(self.ui.widget.label.rotateAntiClockwise)
+        self.ui.pushButton_3.clicked.connect(lambda: self.ui.widget.rotate(90))
+        self.ui.pushButton.clicked.connect(lambda: self.ui.widget.rotate(-90))
+
 
 class Controller:
     def __init__(self):
@@ -31,7 +32,6 @@ class Controller:
         exifData = self.window.ui.widget.label.convertExif()
         table = self.window.ui.tableWidget
         for data in exifData:
-            print(data)
             table.insertRow(table.rowCount())
             table.setItem(table.rowCount() - 1, 0, QTableWidgetItem(data))
             table.setItem(table.rowCount() - 1, 1, QTableWidgetItem(exifData[data]))

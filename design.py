@@ -30,6 +30,7 @@ class Ui_MainWindow(object):
         self.widget.setMinimumSize(QtCore.QSize(0, 0))
         self.widget.setMaximumSize(QtCore.QSize(1920, 1080))
         self.widget.setBaseSize(QtCore.QSize(0, 0))
+        self.widget.setStyleSheet("border:1px solid black")
         self.widget.setObjectName("widget")
         self.verticalLayout.addWidget(self.widget)
         self.horizontalLayout = QtWidgets.QHBoxLayout()

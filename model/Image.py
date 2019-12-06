@@ -11,18 +11,18 @@ from model.ExifEnum import meteringMode, lightSource, exposureProgram, captureTy
 class Image(QLabel):
 
     rotation = 0
-    imageUrl = 'images/image.jpg'
+    imageUrl = ''
     aspectRatio = 0
     imageWidth = 0
     imageHeight = 0
 
     def __init__(self, *__args):
         QLabel.__init__(self, *__args)
-        self.loadImage()
-
         self.setAlignment(Qt.AlignCenter)
 
-    def loadImage(self):
+    def loadImage(self, imageUrl):
+        self.rotation = 0
+        self.imageUrl = "images/" + imageUrl
         pixmap = QPixmap(self.imageUrl)
         self.setPixmap(pixmap)
         self.aspectRatio = pixmap.width() / pixmap.height()
@@ -63,8 +63,8 @@ class Image(QLabel):
         pixmap = QPixmap(self.imageUrl)
         rotation = self.rotation + angle
         pixmap = pixmap.transformed(QTransform().rotate(rotation))
+        self.rotation = rotation
         self.rotation = self.rotation % 360
-        self.rotation = self.rotation + angle
         if self.rotation % 180 == 0:
             pixmap = pixmap.scaledToWidth(width)
         else:
@@ -80,10 +80,10 @@ class Image(QLabel):
         if self.exif_data is not None:
             for key in self.exif_data:
                 if key in PIL.ExifTags.TAGS:
-                    result[PIL.ExifTags.TAGS[key]] = self.formatValue(key)
+                    result[PIL.ExifTags.TAGS[key]] = self.convertToReadable(key)
         return result
 
-    def formatValue(self, key):
+    def convertToReadable(self, key):
         if "b'" in str(self.exif_data[key]) and key != 34853:
             result = str(list(self.exif_data[key]))
         elif key == 33434:
@@ -127,6 +127,13 @@ class Image(QLabel):
         newDate = dateParser.strftime('%d/%m/%y %H:%M:%S')
         return newDate
 
+    def get_coordinates(self, geotags):
+        lat = self.get_decimal_from_dms(geotags[2], geotags[1])
+
+        lon = self.get_decimal_from_dms(geotags[4], geotags[3])
+
+        return lat, lon
+
     @staticmethod
     def get_decimal_from_dms(dms, ref):
 
@@ -140,13 +147,6 @@ class Image(QLabel):
             seconds = -seconds
 
         return round(degrees + minutes + seconds, 5)
-
-    def get_coordinates(self, geotags):
-        lat = self.get_decimal_from_dms(geotags[2], geotags[1])
-
-        lon = self.get_decimal_from_dms(geotags[4], geotags[3])
-
-        return lat, lon
 
     @staticmethod
     def getApertureValue(value):

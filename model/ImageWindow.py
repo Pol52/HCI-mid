@@ -6,25 +6,33 @@ class ImageWindow(QWidget):
 
     def __init__(self, parent=None, Qt_WindowFlags=None, Qt_WindowType=None, *args, **kwargs):
         QWidget.__init__(self)
-        self.label = Image(self)
+        self.image = Image(self)
+        print(self.width(), self.height())
 
     def resizeEvent(self, event):
-        self.label.resize(self.width(), self.height())
+        self.image.resize(self.width(), self.height())
         self.checkAspectRatio()
+        if self.width() > 512:
+            self.setMinimumSize(0, 0)
 
     def rotate(self, angle):
         width = self.width()
         height = self.height()
-        self.label.rotate(width, height, angle)
+        self.image.rotate(width, height, angle)
         self.checkAspectRatio()
 
     def checkAspectRatio(self):
-        imageWidth = self.label.imageWidth
-        expectedHeight = imageWidth / self.label.aspectRatio
+        imageWidth = self.image.imageWidth
+        expectedHeight = imageWidth / self.image.aspectRatio
         if expectedHeight > self.height():
-            self.label.resizeOverflow('height', self.width(), self.height())
+            self.image.resizeOverflow('height', self.width(), self.height())
 
-        imageHeight = self.label.imageHeight
-        expectedWidth = imageHeight * self.label.aspectRatio
+        imageHeight = self.image.imageHeight
+        expectedWidth = imageHeight * self.image.aspectRatio
         if expectedWidth > self.width():
-            self.label.resizeOverflow('width', self.width(), self.height())
+            self.image.resizeOverflow('width', self.width(), self.height())
+
+    def loadImage(self, imagePath):
+        self.image.loadImage(imagePath)
+        self.image.resize(self.width(), self.height())
+        self.checkAspectRatio()

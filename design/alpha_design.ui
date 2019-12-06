@@ -496,7 +496,7 @@
     <item>
      <layout class="QVBoxLayout" name="verticalLayout">
       <item>
-       <widget class="ImageWindow" name="widget" native="true">
+       <widget class="Window" name="widget" native="true">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
           <horstretch>0</horstretch>
@@ -746,7 +746,7 @@
           </property>
           <property name="icon">
            <iconset>
-            <normaloff>assets/Rotate-left-01.png</normaloff>assets/Rotate-left-01.png</iconset>
+            <normaloff>Rotate-left-01.png</normaloff>Rotate-left-01.png</iconset>
           </property>
           <property name="iconSize">
            <size>
@@ -772,7 +772,7 @@
           </property>
           <property name="icon">
            <iconset>
-            <normaloff>assets/Rotate-right-02.png</normaloff>assets/Rotate-right-02.png</iconset>
+            <normaloff>Rotate-right-02.png</normaloff>Rotate-right-02.png</iconset>
           </property>
           <property name="iconSize">
            <size>
@@ -1026,9 +1026,9 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>ImageWindow</class>
+   <class>Window</class>
    <extends>QWidget</extends>
-   <header>model.ImageWindow</header>
+   <header>model</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

@@ -3,8 +3,10 @@ from PyQt5.QtWidgets import QApplication, QLabel, QMainWindow, QWidget, QLayout,
 from PyQt5.QtGui import QPixmap, QTransform
 from PyQt5.QtCore import Qt
 import PIL.Image
+import PIL.ExifTags
 from design import Ui_MainWindow
 from PyQt5 import QtWidgets
+import datetime
 
 
 class Image(QLabel):
@@ -19,8 +21,9 @@ class Image(QLabel):
         QLabel.__init__(self, *__args)
         self.pixmap = QPixmap(self.imageUrl)
         self.setPixmap(self.pixmap)
-        self.imageData = PIL.Image.open(self.imageUrl)
-        self.exif_data = self.imageData._getexif()
+        imageData = PIL.Image.open(self.imageUrl)
+        self.exif_data = imageData._getexif()
+        print(self.exif_data)
         self.rotation = 0
         self.aspectRatio = self.pixmap.width() / self.pixmap.height()
         self.setAlignment(Qt.AlignCenter)
@@ -67,30 +70,24 @@ class Image(QLabel):
 
     def convertExif(self):
         result = {}
-        exif_data = self.exif_data
-        exif_data["Image Type"] = self.imageUrl.split(".")[-1]
-        exif_data["Width"] = exif_data.pop(40962)
-        exif_data["Height"] = exif_data.pop(40963)
-        exif_data["Camera Brand"] = exif_data.pop(271)
-        exif_data["Camera Model"] = exif_data.pop(272)
-        shutterSpeed = exif_data.pop(37377)
-        exif_data["Exposure Time"] = round(2 ** (shutterSpeed[0] / shutterSpeed[1]))
-        exif_data["Exposure Program"] = getExposureProgram(exif_data.pop(34850))
-        exif_data["Aperture Value"] = getApertureValue(exif_data.pop(37378))
-        exif_data["ISO"] = exif_data.pop(34855)
-        exif_data["Flash used"] = exif_data.pop(37385)
-        focalLengthTuple = exif_data.pop(37386)
-        exif_data["Focal length"] = focalLengthTuple[0] / focalLengthTuple[1]
-        # exif_data["Comment"] = exif_data.pop(37510)
-        exif_data["Creator"] = exif_data.pop(315)
-        exif_data["Generated on"] = exif_data.pop(36867)
-        exif_data["Last modified on"] = exif_data.pop(36868)
-        exif_data["Copyright"] = exif_data.pop(33432)
-        for data in exif_data:
-            if type(data) != int:
-                result[data] = exif_data[data]
+        for key in self.exif_data:
+            if key in PIL.ExifTags.TAGS:
 
+                result[PIL.ExifTags.TAGS[key]] = self.formatValue(key)
         return result
+
+    def formatValue(self, key):
+        if key == 36867 or key == 36868 or key == 306:
+            result = self.dateFormatter(self.exif_data[key])
+            print(list(self.exif_data[key]))
+        else:
+            result = self.exif_data[key]
+        return result
+
+    def dateFormatter(self, exifDate):
+        dateParser = datetime.datetime.strptime(exifDate, '%Y:%m:%d %H:%M:%S')
+        newDate = dateParser.strftime('%d/%m/%y %H:%M:%S')
+        return newDate
 
 
 class Window(QWidget):
@@ -133,9 +130,12 @@ class BeautyWindow(QMainWindow):
 
 def getExposureProgram(key):
     programs = {}
-    print(key)
     programs[1] = "Manual"
     return programs[key]
 
-def getApertureValue(value): #TODO:
-    return '2.8'
+def getApertureValue(value):
+    apexApertureValue = value[0]/value[1]
+    fApertureValue = round(2 ** (apexApertureValue / 2), 1)
+    return fApertureValue
+
+

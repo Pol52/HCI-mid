@@ -4,15 +4,18 @@ from model.Image import Image
 
 class ImageWindow(QWidget):
 
-    def __init__(self, parent=None, Qt_WindowFlags=None, Qt_WindowType=None, *args, **kwargs):
+    def __init__(self, parent=None):
         QWidget.__init__(self)
         self.image = Image(self)
 
     def resizeEvent(self, event):
         self.image.resize(self.width(), self.height())
         self.checkAspectRatio()
+        print(self.width())
         if self.width() > 512:
             self.setMinimumSize(0, 0)
+        # if self.height() > 512:
+        #     self.setMinimumSize(0, 0)
 
     def rotate(self, angle):
         width = self.width()

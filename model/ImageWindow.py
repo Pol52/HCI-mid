@@ -7,7 +7,6 @@ class ImageWindow(QWidget):
     def __init__(self, parent=None, Qt_WindowFlags=None, Qt_WindowType=None, *args, **kwargs):
         QWidget.__init__(self)
         self.image = Image(self)
-        print(self.width(), self.height())
 
     def resizeEvent(self, event):
         self.image.resize(self.width(), self.height())
@@ -33,6 +32,7 @@ class ImageWindow(QWidget):
             self.image.resizeOverflow('width', self.width(), self.height())
 
     def loadImage(self, imagePath):
-        self.image.loadImage(imagePath)
-        self.image.resize(self.width(), self.height())
-        self.checkAspectRatio()
+        if imagePath is not None:
+            self.image.loadImage(imagePath)
+            self.image.resize(self.width(), self.height())
+            self.checkAspectRatio()

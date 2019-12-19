@@ -12,7 +12,7 @@ class Image(QLabel):
 
     rotation = 0
     imageUrl = ''
-    aspectRatio = 0
+    aspectRatio = 1
     imageWidth = 0
     imageHeight = 0
 
@@ -21,13 +21,14 @@ class Image(QLabel):
         self.setAlignment(Qt.AlignCenter)
 
     def loadImage(self, imageUrl):
-        self.rotation = 0
-        self.imageUrl = "images/" + imageUrl
-        pixmap = QPixmap(self.imageUrl)
-        self.setPixmap(pixmap)
-        self.aspectRatio = pixmap.width() / pixmap.height()
-        imageData = PIL.Image.open(self.imageUrl)
-        self.exif_data = imageData._getexif()
+        if imageUrl is not None:
+            self.rotation = 0
+            self.imageUrl = imageUrl
+            pixmap = QPixmap(self.imageUrl)
+            self.setPixmap(pixmap)
+            self.aspectRatio = pixmap.width() / pixmap.height()
+            imageData = PIL.Image.open(self.imageUrl)
+            self.exif_data = imageData._getexif()
 
     def resize(self, width, height):
         QLabel.resize(self, width, height)

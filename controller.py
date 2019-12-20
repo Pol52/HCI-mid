@@ -24,9 +24,10 @@ class Controller:
             os.chdir(folderPath)
         except OSError as e:
             self.window.ui.folderNotFound.setText("Can not locate folder")
+            self.window.ui.folderNotFound.setStyleSheet("color:red;")
         else:
             self.fileList = []
-            types = ('*.jpg', '*.JPEG', '*.JPG', '*.png')
+            types = ('*.jpg', '*.JPEG', '*.JPG', '*.png', '*.jpeg')
             for files in types:
                 self.fileList.extend(glob.glob(files))
             for i in range(0, len(self.fileList)):
@@ -69,6 +70,9 @@ class Controller:
         self.window.ui.pushButton_2.clicked.connect(self.previousPhoto)
         self.window.ui.pushButton_4.clicked.connect(self.nextPhoto)
         self.window.ui.pushButton_5.clicked.connect(lambda: self.loadFiles(self.window.ui.lineEdit.text()))
+        self.window.ui.pushButton_2.setShortcut(QtCore.Qt.Key_Left)
+        self.window.ui.pushButton_4.setShortcut(QtCore.Qt.Key_Right)
+        self.window.ui.lineEdit.returnPressed.connect(lambda: self.loadFiles(self.window.ui.lineEdit.text()))
 
     def previousPhoto(self):
         if self.currentImageIndex > 0:

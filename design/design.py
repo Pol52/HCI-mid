@@ -431,5 +431,6 @@ class Ui_MainWindow(object):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "EXIF Viewer"))
         self.pushButton_5.setText(_translate("MainWindow", "Load"))
+        self.lineEdit.setPlaceholderText("Global folder path")
 
 from model.ImageWindow import ImageWindow

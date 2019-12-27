@@ -11,9 +11,8 @@ class ImageWindow(QWidget):
     def resizeEvent(self, event):
         self.image.resize(self.width(), self.height())
         self.checkAspectRatio()
-        print(self.width())
-        if self.width() > 512:
-            self.setMinimumSize(0, 0)
+        """ if self.width() > 512:
+            self.setMinimumSize(0, 0) """
         # if self.height() > 512:
         #     self.setMinimumSize(0, 0)
 

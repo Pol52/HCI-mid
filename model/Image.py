@@ -25,6 +25,7 @@ class Image(QLabel):
             self.rotation = 0
             self.imageUrl = imageUrl
             pixmap = QPixmap(self.imageUrl)
+            pixmap = pixmap.scaledToWidth(1000)
             self.setPixmap(pixmap)
             self.aspectRatio = pixmap.width() / pixmap.height()
             imageData = PIL.Image.open(self.imageUrl)
@@ -121,6 +122,9 @@ class Image(QLabel):
         else:
             result = self.exif_data[key]
         return result
+
+    def isPortrait(self):
+        return (self.imageWidth / self.imageHeight) > 1
 
     @staticmethod
     def dateFormatter(exifDate):

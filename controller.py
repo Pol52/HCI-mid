@@ -22,7 +22,7 @@ class Controller:
     def loadFiles(self, folderPath):
         try:
             os.chdir(folderPath)
-        except OSError as e:
+        except OSError:
             self.window.ui.folderNotFound.setText("Can not locate folder")
             self.window.ui.folderNotFound.setStyleSheet("color:red;")
         else:
@@ -33,12 +33,27 @@ class Controller:
             for i in range(0, len(self.fileList)):
                 self.fileList[i] = folderPath + "/" + self.fileList[i]
             self.window.ui.folderNotFound.setText("")
-            self.window.ui.widget.loadImage(self.fileList[0])
+            self.window.ui.imageWidget.loadImage(self.fileList[0])
             self.currentImageIndex = 0
             self.loadExif()
+            if self.window.ui.imageWidget.image.isPortrait():
+                reductionRate = 100
+                while self.window.ui.imageWidget.image.width() > 512:
+                    if self.window.ui.imageWidget.image.width() - reductionRate < 512:
+                        reductionRate = reductionRate / 2
+                    else:
+                        self.window.resize(self.window.width() - reductionRate, self.window.height())
+            else:
+                reductionRate = 100
+                while self.window.ui.imageWidget.image.height() > 512:
+                    if self.window.ui.imageWidget.image.height() - reductionRate < 512:
+                        reductionRate = reductionRate / 2
+                    else:
+                        self.window.resize(self.window.width(), self.window.height() - reductionRate)
+            print("Image size:", self.window.ui.imageWidget.image.width(), self.window.ui.imageWidget.image.height())
 
     def loadExif(self):
-        exifData = self.window.ui.widget.image.convertExif()
+        exifData = self.window.ui.imageWidget.image.convertExif()
         table = self.window.ui.tableWidget
         table.clear()
         table.setRowCount(0)
@@ -65,25 +80,25 @@ class Controller:
         table.setCellWidget(table.rowCount() - 1, 1, gpsLabel)
 
     def connectButtons(self):
-        self.window.ui.pushButton_3.clicked.connect(lambda: self.window.ui.widget.rotate(90))
-        self.window.ui.pushButton.clicked.connect(lambda: self.window.ui.widget.rotate(-90))
-        self.window.ui.pushButton_2.clicked.connect(self.previousPhoto)
-        self.window.ui.pushButton_4.clicked.connect(self.nextPhoto)
-        self.window.ui.pushButton_5.clicked.connect(lambda: self.loadFiles(self.window.ui.lineEdit.text()))
-        self.window.ui.pushButton_2.setShortcut(QtCore.Qt.Key_Left)
-        self.window.ui.pushButton_4.setShortcut(QtCore.Qt.Key_Right)
-        self.window.ui.lineEdit.returnPressed.connect(lambda: self.loadFiles(self.window.ui.lineEdit.text()))
+        self.window.ui.rotateCWButton.clicked.connect(lambda: self.window.ui.imageWidget.rotate(90))
+        self.window.ui.rotateAntiCWButton.clicked.connect(lambda: self.window.ui.imageWidget.rotate(-90))
+        self.window.ui.loadPreviousButton.clicked.connect(self.previousPhoto)
+        self.window.ui.loadNextButton.clicked.connect(self.nextPhoto)
+        self.window.ui.loadButton.clicked.connect(lambda: self.loadFiles(self.window.ui.folderPathInput.text()))
+        self.window.ui.loadPreviousButton.setShortcut(QtCore.Qt.Key_Left)
+        self.window.ui.loadNextButton.setShortcut(QtCore.Qt.Key_Right)
+        self.window.ui.folderPathInput.returnPressed.connect(lambda: self.loadFiles(self.window.ui.folderPathInput.text()))
 
     def previousPhoto(self):
         if self.currentImageIndex > 0:
             self.currentImageIndex -= 1
-            self.window.ui.widget.loadImage(self.fileList[self.currentImageIndex])
+            self.window.ui.imageWidget.loadImage(self.fileList[self.currentImageIndex])
             self.loadExif()
 
     def nextPhoto(self):
         if self.currentImageIndex < len(self.fileList)-1:
             self.currentImageIndex += 1
-            self.window.ui.widget.loadImage(self.fileList[self.currentImageIndex])
+            self.window.ui.imageWidget.loadImage(self.fileList[self.currentImageIndex])
             self.loadExif()
 
     def run(self):

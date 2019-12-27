@@ -8,7 +8,7 @@ class BeautyWindow(QMainWindow):
         QMainWindow.__init__(self)
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
-        self.ui.widget.loadImage(imagePath)
+        self.ui.imageWidget.loadImage(imagePath)
         header = self.ui.tableWidget.horizontalHeader()
         header.setSectionResizeMode(0, QtWidgets.QHeaderView.ResizeToContents)
         header.setSectionResizeMode(1, QtWidgets.QHeaderView.Stretch)

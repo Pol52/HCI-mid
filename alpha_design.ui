@@ -9,8 +9,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>951</width>
-    <height>657</height>
+    <width>960</width>
+    <height>679</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -499,45 +499,7 @@
     <item>
      <layout class="QVBoxLayout" name="verticalLayout_4">
       <item>
-<<<<<<< HEAD
        <layout class="QHBoxLayout" name="horizontalLayout_6">
-=======
-       <widget class="ImageWindow" name="widget" native="true">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="minimumSize">
-         <size>
-          <width>0</width>
-          <height>512</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>1920</width>
-          <height>1080</height>
-         </size>
-        </property>
-        <property name="baseSize">
-         <size>
-          <width>0</width>
-          <height>0</height>
-         </size>
-        </property>
-        <property name="styleSheet">
-         <string notr="true"/>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <layout class="QHBoxLayout" name="horizontalLayout">
-        <property name="sizeConstraint">
-         <enum>QLayout::SetDefaultConstraint</enum>
-        </property>
->>>>>>> 8a4a316067fce59df1f6d3dda92dfa1651c2fa28
         <item>
          <spacer name="horizontalSpacer_3">
           <property name="orientation">
@@ -552,7 +514,7 @@
          </spacer>
         </item>
         <item>
-         <widget class="QLineEdit" name="lineEdit">
+         <widget class="QLineEdit" name="folderPathInput">
           <property name="styleSheet">
            <string notr="true">background-color:white;</string>
           </property>
@@ -565,7 +527,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QPushButton" name="pushButton_5">
+         <widget class="QPushButton" name="loadButton">
           <property name="text">
            <string>Load</string>
           </property>
@@ -601,36 +563,46 @@
         <layout class="QHBoxLayout" name="horizontalLayout_4">
          <item>
           <layout class="QVBoxLayout" name="verticalLayout">
+           <property name="sizeConstraint">
+            <enum>QLayout::SetNoConstraint</enum>
+           </property>
            <item>
-            <widget class="ImageWindow" name="widget" native="true">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
+            <layout class="QHBoxLayout" name="horizontalLayout_5">
+             <property name="sizeConstraint">
+              <enum>QLayout::SetNoConstraint</enum>
              </property>
-             <property name="minimumSize">
-              <size>
-               <width>512</width>
-               <height>512</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>1920</width>
-               <height>1080</height>
-              </size>
-             </property>
-             <property name="baseSize">
-              <size>
-               <width>0</width>
-               <height>0</height>
-              </size>
-             </property>
-             <property name="styleSheet">
-              <string notr="true"/>
-             </property>
-            </widget>
+             <item>
+              <widget class="ImageWindow" name="imageWidget" native="true">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>0</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>1920</width>
+                 <height>1080</height>
+                </size>
+               </property>
+               <property name="baseSize">
+                <size>
+                 <width>0</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <property name="styleSheet">
+                <string notr="true"/>
+               </property>
+              </widget>
+             </item>
+            </layout>
            </item>
            <item>
             <layout class="QHBoxLayout" name="horizontalLayout">
@@ -651,7 +623,7 @@
               </spacer>
              </item>
              <item>
-              <widget class="QPushButton" name="pushButton_2">
+              <widget class="QPushButton" name="loadPreviousButton">
                <property name="styleSheet">
                 <string notr="true">background-color: gray</string>
                </property>
@@ -671,7 +643,7 @@
               </widget>
              </item>
              <item>
-              <widget class="QPushButton" name="pushButton">
+              <widget class="QPushButton" name="rotateAntiCWButton">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                  <horstretch>0</horstretch>
@@ -896,7 +868,7 @@
               </widget>
              </item>
              <item>
-              <widget class="QPushButton" name="pushButton_3">
+              <widget class="QPushButton" name="rotateCWButton">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                  <horstretch>0</horstretch>
@@ -922,7 +894,7 @@
               </widget>
              </item>
              <item>
-              <widget class="QPushButton" name="pushButton_4">
+              <widget class="QPushButton" name="loadNextButton">
                <property name="styleSheet">
                 <string notr="true">background-color:gray</string>
                </property>
@@ -976,14 +948,14 @@
              </property>
              <property name="minimumSize">
               <size>
-               <width>400</width>
+               <width>0</width>
                <height>0</height>
               </size>
              </property>
              <property name="maximumSize">
               <size>
-               <width>16777215</width>
-               <height>16777215</height>
+               <width>350</width>
+               <height>1080</height>
               </size>
              </property>
              <property name="palette">
@@ -1194,8 +1166,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>951</width>
-     <height>31</height>
+     <width>960</width>
+     <height>20</height>
     </rect>
    </property>
   </widget>

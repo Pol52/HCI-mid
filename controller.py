@@ -49,7 +49,7 @@ class Controller:
             self.window.ui.folderNotFound.setStyleSheet("color:red;")
         else:
             self.fileList = []
-            types = ( '*.jpeg', '*.jpg', '*.JPEG', '*.JPG', '*.png')
+            types = ('*.jpeg', '*.jpg', '*.JPEG', '*.JPG',  '*.png')
             for files in types:
                 self.fileList.extend(glob.glob(files))
             for i in range(0, len(self.fileList)):

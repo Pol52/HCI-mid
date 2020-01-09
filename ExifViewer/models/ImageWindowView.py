@@ -1,5 +1,5 @@
 from PyQt5.QtWidgets import QWidget
-from model.Image import Image
+from ExifViewer.models.ImageView import Image
 
 
 class ImageWindow(QWidget):
@@ -11,10 +11,6 @@ class ImageWindow(QWidget):
     def resizeEvent(self, event):
         self.image.resize(self.width(), self.height())
         self.checkAspectRatio()
-        """ if self.width() > 512:
-            self.setMinimumSize(0, 0) """
-        # if self.height() > 512:
-        #     self.setMinimumSize(0, 0)
 
     def rotate(self, angle):
         width = self.width()

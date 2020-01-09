@@ -438,4 +438,5 @@ class Ui_MainWindow(object):
         self.loadButton.setText(_translate("MainWindow", "Load"))
         self.folderPathInput.setPlaceholderText("Global folder path")
 
-from model.ImageWindow import ImageWindow
+
+from ExifViewer.models.ImageWindowView import ImageWindow
